@@ -1,5 +1,6 @@
 <?php
 $dsn = 'mysql:host=localhost;dbname=inventario_final;charset=utf8';
+$conexion = new PDO("mysql:host=localhost;dbname=inventario_final", "root", "");
 $usuario = 'root';
 $contrasena = '';
 
