@@ -1,3 +1,6 @@
+<?php
+// index.php
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +27,7 @@
 
         <nav class="nav" aria-label="navegación principal">
 
-            <a href="#" class="active">
+            <a href="index.php?page=inicio" class="active">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2 8l9.732-4.866a.6.6 0 0 1 .536 0L22 8m-2 3v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"/></svg>Inicio
         </a>
         
@@ -69,66 +72,21 @@
         </div>
     </header>
 
+    <main class="vista">
+    <?php
+$page = $_GET['page'] ?? 'inicio'; // carga por defecto "inicio"
+
+$archivo = "views/" . $page . ".php";
+
+if (file_exists($archivo)) {
+    include $archivo;
+} else {
+    echo "<p style='padding:20px'>⚠ Página no encontrada</p>";
+}
+?>
+    </main>
     </main>
     </div>
 </body>
 </html>
 
-
-
-
-      <section class="content" aria-live="polite">
-        <div class="card">
-          <h3 style="margin:0 0 8px 0">Ventas hoy</h3>
-          <div style="font-size:22px;font-weight:700">$3,240</div>
-          <div class="small">+12% respecto a ayer</div>
-        </div>
-
-        <div class="card">
-          <h3 style="margin:0 0 8px 0">Clientes</h3>
-          <div style="font-size:22px;font-weight:700">128</div>
-          <div class="small">Nuevos esta semana: 14</div>
-        </div>
-
-        <div class="card">
-          <h3 style="margin:0 0 8px 0">Inventario</h3>
-          <div style="font-size:22px;font-weight:700">532 items</div>
-          <div class="small">Faltan 8 por reponer</div>
-        </div>
-
-        <div class="card-full">
-        <h3 style="margin:0 0 12px 0">Productos recientes</h3>
-
-            <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <!-- ejemplo de tarjeta interna -->
-            <div style="background:var(--muted);padding:10px;border-radius:8px;min-width:220px;flex:1 1 220px">
-            <div style="font-weight:700">Auriculares X-400</div>
-            <div class="small">Stock: 24 — $49.99</div>
-            </div>
-            <div style="background:var(--muted);padding:10px;border-radius:8px;min-width:220px;flex:1 1 220px">
-            <div style="font-weight:700">Teclado mecánico K2</div>
-            <div class="small">Stock: 8 — $79.99</div>
-            </div>
-            <div style="background:var(--muted);padding:10px;border-radius:8px;min-width:220px;flex:1 1 220px">
-            <div style="font-weight:700">Mouse Pro</div>
-            <div class="small">Stock: 46 — $29.99</div>
-            </div>
-        </div>
-
-        </div>
-
-        <div class="card" style="border-left:4px solid var(--green);">
-        <h3 style="margin:0 0 8px 0">Acciones rápidas</h3>
-        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-            <button class="btn">Agregar</button>
-            <button style="padding:8px 12px;border-radius:8px;border:1px solid rgba(11,18,32,0.06);background:transparent;">Exportar</button>
-            <button style="padding:8px 12px;border-radius:8px;border:1px dashed rgba(11,18,32,0.04);">Filtrar</button>
-        </div>
-        </div>
-
-        <div class="card">
-        <h3 style="margin:0 0 8px 0">Resumen</h3>
-        <div class="small">Se muestran las principales métricas del día y las acciones recientes.</div>
-        </div>
-
-        </section>
