@@ -1,24 +1,16 @@
 <?php
 include __DIR__ . "/../config/conexion.php";
+include "actualizar_total.php";
 
 $id = $_GET['id'];
 $factura_id = $_GET['factura_id'];
 
-// Borrar detalle
-$conexion->query("DELETE FROM detalle_factura WHERE id = $id");
+// Eliminar detalle
+$stmt = $conexion->prepare("DELETE FROM detalle_factura WHERE id = ?");
+$stmt->execute([$id]);
 
 // Actualizar total
-$conexion->query("
-    UPDATE factura
-    SET total = (SELECT IFNULL(SUM(subtotal), 0) FROM detalle_factura WHERE factura_id = $factura_id)
-    WHERE id = $factura_id
-");
+actualizarTotalFactura($factura_id, $conexion);
 
 header("Location: list.php?factura_id=$factura_id");
 exit();
-
-$conexion->query("
-    UPDATE factura
-    SET total = (SELECT COALESCE(SUM(subtotal), 0) FROM detalle_factura WHERE factura_id = $factura_id)
-    WHERE id = $factura_id
-");

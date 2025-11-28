@@ -1,27 +1,21 @@
+<?php
 include __DIR__ . "/../config/conexion.php";
+include "actualizar_total.php";
 
-$factura_id = $_POST['factura_id'];
+$factura_id  = $_POST['factura_id'];
 $producto_id = $_POST['producto_id'];
-$cantidad = $_POST['cantidad'];
+$cantidad    = $_POST['cantidad'];
+$precio      = $_POST['precio'];
+$subtotal    = $cantidad * $precio;
 
-// Obtener precio del producto
-$producto = $conexion->query("SELECT precio FROM productos WHERE id = $producto_id")->fetch(PDO::FETCH_ASSOC);
-$precio = $producto['precio'];
-
-$subtotal = $cantidad * $precio;
-
-// Guardar detalle
-$conexion->query("
+$stmt = $conexion->prepare("
     INSERT INTO detalle_factura (factura_id, producto_id, cantidad, precio, subtotal)
-    VALUES ($factura_id, $producto_id, $cantidad, $precio, $subtotal)
+    VALUES (?, ?, ?, ?, ?)
 ");
+$stmt->execute([$factura_id, $producto_id, $cantidad, $precio, $subtotal]);
 
-// Recalcular total
-$conexion->query("
-    UPDATE factura
-    SET total = (SELECT SUM(subtotal) FROM detalle_factura WHERE factura_id = $factura_id)
-    WHERE id = $factura_id
-");
+// Actualizar total
+actualizarTotalFactura($factura_id, $conexion);
 
 header("Location: list.php?factura_id=$factura_id");
 exit();

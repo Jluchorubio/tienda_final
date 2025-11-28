@@ -3,24 +3,32 @@ include __DIR__ . "/../config/conexion.php";
 
 $id = $_GET['id'];
 
-$factura = $conexion->query("SELECT * FROM factura WHERE id = $id")->fetch(PDO::FETCH_ASSOC);
-$clientes = $conexion->query("SELECT id, nombre FROM clientes")->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $conexion->prepare("
+    SELECT id, cliente_id
+    FROM factura
+    WHERE id = ?
+");
+$stmt->execute([$id]);
+$factura = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$stmt = $conexion->query("SELECT id, nombre FROM clientes ORDER BY nombre");
+$clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<h1>Editar Factura</h1>
+<h1>Editar factura #<?= $factura['id']; ?></h1>
 
 <form action="update.php" method="POST">
-    <input type="hidden" name="id" value="<?php echo $factura['id']; ?>">
+    <input type="hidden" name="id" value="<?= $factura['id']; ?>">
 
     <label>Cliente:</label>
-    <select name="cliente_id" required>
+    <select name="cliente_id">
         <?php foreach ($clientes as $c) { ?>
-            <option value="<?php echo $c['id']; ?>" 
-                <?php echo ($c['id'] == $factura['cliente_id']) ? 'selected' : ''; ?>>
-                <?php echo $c['nombre']; ?>
+            <option value="<?= $c['id']; ?>" <?= $c['id'] == $factura['cliente_id'] ? "selected" : "" ?>>
+                <?= $c['nombre']; ?>
             </option>
         <?php } ?>
     </select>
+
     <br><br>
 
     <button type="submit">Actualizar</button>

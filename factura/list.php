@@ -1,16 +1,16 @@
 <?php
 include __DIR__ . "/../config/conexion.php";
 
-// Traer facturas con el nombre del cliente
-$sql = "SELECT factura.*, clientes.nombre AS cliente 
-        FROM factura
-        INNER JOIN clientes ON factura.cliente_id = clientes.id";
-
-$resultado = $conexion->query($sql);
+$stmt = $conexion->query("
+    SELECT f.id, f.fecha, f.total, c.nombre AS cliente
+    FROM factura f
+    INNER JOIN clientes c ON f.cliente_id = c.id
+    ORDER BY f.id DESC
+");
+$facturas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<h1>Listado de Facturas</h1>
-
+<h1>Listado de facturas</h1>
 <a href="create.php">Crear nueva factura</a>
 <br><br>
 
@@ -20,26 +20,18 @@ $resultado = $conexion->query($sql);
         <th>Cliente</th>
         <th>Fecha</th>
         <th>Total</th>
-        <th>Detalles</th>
         <th>Acciones</th>
     </tr>
 
-    <?php foreach ($resultado as $fila) { ?>
+    <?php foreach ($facturas as $f) { ?>
         <tr>
-            <td><?php echo $fila['id']; ?></td>
-            <td><?php echo $fila['cliente']; ?></td>
-            <td><?php echo $fila['fecha']; ?></td>
-            <td><?php echo $fila['total']; ?></td>
-
+            <td><?= $f['id']; ?></td>
+            <td><?= $f['cliente']; ?></td>
+            <td><?= $f['fecha']; ?></td>
+            <td>$<?= number_format($f['total'], 2); ?></td>
             <td>
-                <a href="../detalle_factura/list.php?factura_id=<?php echo $fila['id']; ?>">
-                    Ver detalles
-                </a>
-            </td>
-
-            <td>
-                <a href="edit.php?id=<?php echo $fila['id']; ?>">Editar</a> |
-                <a href="delete.php?id=<?php echo $fila['id']; ?>">Eliminar</a>
+                <a href="../detalle_factura/list.php?factura_id=<?= $f['id']; ?>">Ver detalles</a>
+                <a href="delete.php?id=<?= $f['id']; ?>" onclick="return confirm('¿Eliminar factura?');">Eliminar</a>
             </td>
         </tr>
     <?php } ?>
