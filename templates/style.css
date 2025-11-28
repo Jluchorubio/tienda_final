@@ -37,9 +37,13 @@ body {
 /* Sidebar */
 .sidebar {
     width: 260px;
+    min-height: 100vh;
     background: linear-gradient(180deg, var(--dark), #172033);
     color: var(--white);
     padding: 28px 18px;
+    position: relative; /* Fijo en PC */
+    left: 0;
+    transition: none; /* Sin animación en PC */
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -207,22 +211,64 @@ body {
     cursor: pointer
 }
 
+.menu-btn {
+    display: none; /* No mostrar botón en PC */
+}
 
-/* Responsive */
-@media (max-width:900px) {
+.overlay {
+    display: none; /* Overlay no se usa en PC */
+}
+
+/* -------- SOLO TABLET / CELULAR -------- */
+@media (max-width: 900px) {
+
+    .menu-btn {
+        display: block;
+        font-size: 26px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--dark);
+    }
+
+    /* SIDEBAR COMO DRAWER */
     .sidebar {
-        display: none
+        position: fixed;
+        top: 0;
+        left: -260px;
+        width: 260px;
+        height: 100vh;
+        background: var(--dark); /* fondo blanco en móvil */
+        transition: left .3s ease;
+        z-index: 999;
+        box-shadow: 2px 0 6px rgba(0,0,0,0.15);
     }
 
-    .content {
-        padding: 16px
+    .sidebar.open {
+        left: 0;
     }
 
-    .search {
-        width: 100%
+/* OVERLAY */
+    #overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.45);
+        display: none;
+        z-index: 998;
     }
 
-    .card {
-        grid-column: span 12
+    #overlay.active {
+        display: block;
+    }
+
+    /* MAIN */
+    .main {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* CONTENIDO DE LA VISTA */
+    .vista {
+        padding: 16px;
     }
 }

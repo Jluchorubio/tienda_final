@@ -14,13 +14,9 @@
 <body>
 
     <div class="app">
-
         <aside class="sidebar" aria-label="barra lateral">
-
             <div class="brand">
-
                 <div class="logo"><img src="IMG/logo.jpg" alt=""></div>
-
                 <div class="or_panel">
                     <h1>Mi Panel</h1>
                     <div style="font-size:12px;opacity:0.8">administrador</div>
@@ -28,7 +24,6 @@
             </div>
 
             <nav class="nav" aria-label="navegación principal">
-
                 <a href="index.php?page=inicio" class="active">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -73,10 +68,12 @@
             </div>
 
         </aside>
-
+        <div class="overlay" id="overlay"></div>
+        
         <main class="main">
             <header class="topbar">
                 <div style="display:flex;align-items:center;gap:16px">
+                    <button class="menu-btn" id="menuBtn">☰</button>
                     <div class="search" role="search">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                             <path d="M21 21l-4.35-4.35" stroke="#718096" stroke-width="1.6" stroke-linecap="round"
@@ -113,6 +110,7 @@
             </main>
         </main>
     </div>
-</body>
 
+    <script src="script.js"></script>
+</body>
 </html>
