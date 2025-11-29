@@ -1,11 +1,56 @@
 <?php
-include "../config/conexion.php";  // Conexión a la BD
+include "../config/conexion.php";
 
 if (!$pdo) {
     die("Error de conexión con la base de datos.");
 }
 
-$stmt = $pdo->query("SELECT * FROM clientes");
+/* ==========================
+   📌 FILTRO GENERAL
+=========================== */
+$buscar = $_GET['buscar'] ?? "";
+
+/* ==========================
+   📌 FILTROS AVANZADOS
+=========================== */
+$buscar_nombre = $_GET['buscar_nombre'] ?? "";
+$buscar_telefono = $_GET['buscar_telefono'] ?? "";
+$estado = $_GET['estado'] ?? "";
+
+$sql = "SELECT * FROM clientes WHERE 1";
+$params = [];
+
+/* ----- Filtro general ----- */
+if (!empty($buscar)) {
+    $sql .= " AND (
+        nombre LIKE :general OR
+        telefono LIKE :general OR
+        email LIKE :general OR
+        direccion LIKE :general
+    )";
+    $params['general'] = "%$buscar%";
+}
+
+/* ----- Filtro por nombre ----- */
+if (!empty($buscar_nombre)) {
+    $sql .= " AND nombre LIKE :nombre";
+    $params['nombre'] = "%$buscar_nombre%";
+}
+
+/* ----- Filtro por teléfono ----- */
+if (!empty($buscar_telefono)) {
+    $sql .= " AND telefono LIKE :telefono";
+    $params['telefono'] = "%$buscar_telefono%";
+}
+
+/* ----- Filtro por estado ----- */
+if (!empty($estado)) {
+    $sql .= " AND estado = :estado";
+    $params['estado'] = $estado;
+}
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
 $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -42,7 +87,6 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: var(--radius) var(--radius) 0 0;
             /* Solo arriba */
             box-shadow: var(--shadow);
-            display: flex;
             justify-content: space-between;
             align-items: center;
             /* elimina espacio */
@@ -68,6 +112,46 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .btn-primary:hover {
             background: #3b9e44;
             transform: translateY(-2px);
+        }
+
+
+        /* ===== FILTRO ===== */
+        #search {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background: var(--muted);
+            width: 420px;
+            justify-content: space-between;
+
+        }
+
+        #search:hover {
+            border-color: var(--green);
+
+        }
+
+        #search input {
+            border: 0;
+            background: transparent;
+            outline: 0;
+            font-size: 15px
+        }
+
+        .filter-box {
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+            justify-content: space-between;
+        }
+
+        /* Ícono dentro del select */
+        select {
+            padding: 6px 40px 6px 12px;
+            background: var(--muted);
         }
 
         /* ----------- TABLA ----------- */
@@ -128,7 +212,7 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         .icon-btn svg {
             width: 20px;
-            height:20px;
+            height: 20px;
             fill: var(--text-dark);
         }
 
@@ -201,8 +285,32 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="header-section">
         <h2>Gestión de Clientes</h2>
-        <a href="../clientes/create.php" class="btn-primary">+ Nuevo Cliente</a>
+        <!-- FILTRO -->
+        <div class="filter-box">
+            <form method="GET">
+
+                <div id="search" role="search">
+                    <div>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 21l-4.35-4.35" stroke="#718096" stroke-width="1.6" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <circle cx="11" cy="11" r="6" stroke="#718096" stroke-width="1.6" />
+                        </svg>
+                        <input name="buscar" placeholder="Buscar nombre, email ..." />
+                    </div>
+                </div>
+
+
+
+            </form>
+            <!--Botones-->
+            <div class="botones">
+                <a href="../clietes/create.php" class="btn-primary">Crear cliente</a>
+            </div>
+        </div>
     </div>
+
+
 
     <div class="table-container">
         <table>
@@ -248,6 +356,14 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </table>
     </div>
     <?php include __DIR__ . "/../../includes/footer_dashboard.php"; ?>
+
+    <script>
+        document.getElementById("btn-filtros").addEventListener("click", function () {
+            const panel = document.getElementById("panel-filtros");
+            panel.style.display = panel.style.display === "none" ? "block" : "none";
+        });
+    </script>
+
 </body>
 
 </html>
