@@ -145,21 +145,13 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
             display: flex;
             flex-direction: row;
             margin-top: 20px;
+            justify-content: space-between;
         }
 
         /* Ícono dentro del select */
         select {
             padding: 6px 40px 6px 12px;
             background: var(--muted);
-
-            /* Ícono SVG como imagen de fondo */
-            background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" fill="none" stroke="%235e6c82" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" d="M18.796 4H5.204a1 1 0 0 0-.753 1.659l5.302 6.058a1 1 0 0 1 .247.659v4.874a.5.5 0 0 0 .2.4l3 2.25a.5.5 0 0 0 .8-.4v-7.124a1 1 0 0 1 .247-.659l5.302-6.059c.566-.646.106-1.658-.753-1.658Z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-
-            border-color: transparent;
-            border-left: 1px solid #b9b9b9c7;
-            border-radius: 0px 10px 10px 0px;
         }
 
         /* ----------- TABLA ----------- */
@@ -295,105 +287,82 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2>Gestión de Clientes</h2>
         <!-- FILTRO -->
         <div class="filter-box">
-            <div class="filter-box">
-                <form method="GET">
+            <form method="GET">
 
-                    <!-- 🔍 BUSCADOR GENERAL -->
-                    <div id="search">
+                <div id="search" role="search">
+                    <div>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                             <path d="M21 21l-4.35-4.35" stroke="#718096" stroke-width="1.6" stroke-linecap="round"
                                 stroke-linejoin="round" />
                             <circle cx="11" cy="11" r="6" stroke="#718096" stroke-width="1.6" />
                         </svg>
-
-                        <input type="text" name="buscar" placeholder="Buscar en todos los campos..."
-                            value="<?= htmlspecialchars($buscar) ?>">
+                        <input name="buscar" placeholder="Buscar nombre, email ..." />
                     </div>
-
-                    <!-- 🎛 BOTÓN PARA MOSTRAR FILTROS -->
-                    <button type="button" id="btn-filtros" class="filter-btn">
-                        &#128269; <!-- icono -->
-                    </button>
-
-                    <div id="panel-filtros" class="panel-filtros" style="display:none;">
-
-                        <h4>Filtros avanzados</h4>
-
-                        <label>Filtrar por nombre:</label>
-                        <input type="text" name="buscar_nombre" value="<?= htmlspecialchars($buscar_nombre) ?>">
-
-                        <label>Filtrar por teléfono:</label>
-                        <input type="text" name="buscar_telefono" value="<?= htmlspecialchars($buscar_telefono) ?>">
-
-                        <label>Estado:</label>
-                        <select name="estado">
-                            <option value="">Todos</option>
-                            <option value="activo" <?= $estado == "activo" ? "selected" : "" ?>>Activo</option>
-                            <option value="inactivo" <?= $estado == "inactivo" ? "selected" : "" ?>>Inactivo</option>
-                        </select>
-
-                        <button type="submit" class="btn-primary" style="margin-top:10px;">Aplicar filtros</button>
-
-                        <a href="Clientes.php" style="margin-left:10px;">Quitar filtros</a>
-
-                    </div>
+                </div>
 
 
+
+            </form>
+            <!--Botones-->
+            <div class="botones">
+                <a href="../clietes/create.php" class="btn-primary">Crear cliente</a>
             </div>
-
         </div>
+    </div>
 
-        <div class="table-container">
-            <table>
-                <thead>
+
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($clientes as $cliente): ?>
                     <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
-                        <th>Dirección</th>
-                        <th>Acciones</th>
+                        <td><?= $cliente['id'] ?></td>
+                        <td><?= $cliente['nombre'] ?></td>
+                        <td><?= $cliente['email'] ?></td>
+                        <td><?= $cliente['telefono'] ?></td>
+                        <td><?= $cliente['direccion'] ?></td>
+
+                        <td class="actions">
+                            <a href="../clientes/edit.php?id=<?= $cliente['id'] ?>" class="icon-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="#ffffffff" fill-rule="evenodd"
+                                        d="M3 18L15 6l3 3L6 21H3zM16 5l2-2l3 3l-2.001 2.001z" />
+                                </svg>
+                            </a>
+
+                            <a href="../clientes/delete.php?id=<?= $cliente['id'] ?>" class="icon-btn" id="delete"
+                                onclick="return confirm('¿Eliminar este cliente?')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="#fff"
+                                        d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
+                                </svg>
+                            </a>
+                        </td>
                     </tr>
-                </thead>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php include __DIR__ . "/../../includes/footer_dashboard.php"; ?>
 
-                <tbody>
-                    <?php foreach ($clientes as $cliente): ?>
-                        <tr>
-                            <td><?= $cliente['id'] ?></td>
-                            <td><?= $cliente['nombre'] ?></td>
-                            <td><?= $cliente['email'] ?></td>
-                            <td><?= $cliente['telefono'] ?></td>
-                            <td><?= $cliente['direccion'] ?></td>
-
-                            <td class="actions">
-                                <a href="../clientes/edit.php?id=<?= $cliente['id'] ?>" class="icon-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                        <path fill="#ffffffff" fill-rule="evenodd"
-                                            d="M3 18L15 6l3 3L6 21H3zM16 5l2-2l3 3l-2.001 2.001z" />
-                                    </svg>
-                                </a>
-
-                                <a href="../clientes/delete.php?id=<?= $cliente['id'] ?>" class="icon-btn" id="delete"
-                                    onclick="return confirm('¿Eliminar este cliente?')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                        <path fill="#fff"
-                                            d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
-                                    </svg>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-        <?php include __DIR__ . "/../../includes/footer_dashboard.php"; ?>
-
-        <script>
-            document.getElementById("btn-filtros").addEventListener("click", function () {
-                const panel = document.getElementById("panel-filtros");
-                panel.style.display = panel.style.display === "none" ? "block" : "none";
-            });
-        </script>
+    <script>
+        document.getElementById("btn-filtros").addEventListener("click", function () {
+            const panel = document.getElementById("panel-filtros");
+            panel.style.display = panel.style.display === "none" ? "block" : "none";
+        });
+    </script>
 
 </body>
 
