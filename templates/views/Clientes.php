@@ -127,8 +127,8 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .icon-btn svg {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height:20px;
             fill: var(--text-dark);
         }
 
@@ -228,16 +228,15 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         <td class="actions">
                             <a href="../clientes/edit.php?id=<?= $cliente['id'] ?>" class="icon-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                     <path fill="#ffffffff" fill-rule="evenodd"
                                         d="M3 18L15 6l3 3L6 21H3zM16 5l2-2l3 3l-2.001 2.001z" />
-                                </svg>
                                 </svg>
                             </a>
 
                             <a href="../clientes/delete.php?id=<?= $cliente['id'] ?>" class="icon-btn" id="delete"
                                 onclick="return confirm('¿Eliminar este cliente?')">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                     <path fill="#fff"
                                         d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
                                 </svg>
@@ -248,7 +247,7 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </tbody>
         </table>
     </div>
-
+    <?php include __DIR__ . "/../../includes/footer_dashboard.php"; ?>
 </body>
 
 </html>
