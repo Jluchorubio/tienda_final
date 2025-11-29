@@ -191,6 +191,7 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .table-container {
             max-height: 420px;
             overflow-y: auto;
+            overflow-x: auto;
             border-radius: 0 !important;
         }
     </style>
