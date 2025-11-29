@@ -1,16 +1,15 @@
 <?php
 include __DIR__ . "/../../config/conexion.php";
 
-if (!$pdo) {
-    die("Error de conexión con la base de datos.");
-}
-
 $stmt = $pdo->query("SELECT * FROM productos");
 $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Obtener categorías
+$stmtCat = $pdo->query("SELECT * FROM categorias");
+$categorias = $stmtCat->fetchAll(PDO::FETCH_ASSOC);
+
 $categoria_filtro = $_GET['categoria'] ?? '';
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -252,6 +251,7 @@ $categoria_filtro = $_GET['categoria'] ?? '';
     <!-- ENCABEZADO -->
     <div class="header-section">
         <h2>Gestión de Productos</h2>
+
         <!-- FILTRO -->
         <div class="filter-box">
             <form method="GET">
@@ -263,7 +263,7 @@ $categoria_filtro = $_GET['categoria'] ?? '';
                                 stroke-linejoin="round" />
                             <circle cx="11" cy="11" r="6" stroke="#718096" stroke-width="1.6" />
                         </svg>
-                        <input placeholder="Buscar categoria" />
+                        <input name="buscar" placeholder="Buscar categoria" />
                     </div>
                     <select name="categoria" onchange="this.form.submit()">
                         <option value="">
@@ -284,6 +284,7 @@ $categoria_filtro = $_GET['categoria'] ?? '';
             </form>
         </div>
 
+                <!--Botones-->
         <div class="botones">
             <a href="create.php" class="btn-primary">Crear Producto</a>
             <a href="../categorias/create.php" class="btn-primary" id="categoria">Crear Categoría</a>
