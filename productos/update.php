@@ -2,7 +2,7 @@
 include __DIR__ . '/../config/conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: list.php');
+    header('Location: ../templates/index.php?page=productos');
     exit;
 }
 
@@ -68,5 +68,5 @@ $stmt->execute([
     ':id' => $id
 ]);
 
-header('Location: list.php');
+header('Location: ../templates/index.php?page=productos');
 exit;

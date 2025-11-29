@@ -7,82 +7,45 @@ $categorias = $catStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <title>Crear producto</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: #f4f4f9;
-            padding: 30px
-        }
-
-        .card {
-            max-width: 520px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06)
-        }
-
-        input,
-        select,
-        button {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 6px;
-            border: 1px solid #ddd
-        }
-
-        button {
-            background: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer
-        }
-
-        a {
-            display: inline-block;
-            margin-top: 8px
-        }
-    </style>
 </head>
-
 <body>
 
-    <div class="card">
-        <h2>Crear producto</h2>
+<div class="card">
+    <h2>Crear producto</h2>
 
-        <form action="store.php" method="POST" enctype="multipart/form-data">
-            <label>Nombre</label>
-            <input type="text" name="nombre" required maxlength="150">
+    <form action="store.php" method="POST" enctype="multipart/form-data">
 
-            <label>Precio</label>
-            <input type="number" name="precio" step="0.01" required>
+        <label>Nombre</label>
+        <input type="text" name="nombre" required maxlength="150">
 
-            <label>Cantidad</label>
-            <input type="number" name="cantidad" min="0" required>
+        <label>Precio</label>
+        <input type="number" name="precio" step="0.01" required>
 
-            <label>Categoria</label>
-            <select name="categoria_id" required>
-                <option value="">-- Selecciona --</option>
-                <?php foreach ($categorias as $c): ?>
-                    <option value="<?= $c['id'] ?>"><?= htmlspecialchars($c['nombre']) ?></option>
-                <?php endforeach; ?>
-            </select>
+        <label>Cantidad</label>
+        <input type="number" name="cantidad" min="0" required>
 
-            <label>Imagen (opcional, jpg/png/webp – max 2MB)</label>
-            <input type="file" name="imagen" accept="image/*">
+        <label>Categoría</label>
+        <select name="categoria_id" required>
+            <option value="">-- Selecciona --</option>
 
-            <button type="submit">Guardar</button>
-        </form>
+            <?php foreach ($categorias as $c): ?>
+                <option value="<?= $c['id'] ?>">
+                    <?= htmlspecialchars($c['nombre']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
-        <a href="list.php">Volver</a>
-    </div>
+        <label>Imagen (opcional)</label>
+        <input type="file" name="imagen">
+
+        <button type="submit">Guardar</button>
+    </form>
+
+    <a href="../templates/index.php?page=productos">Regresar</a>
+</div>
 
 </body>
-
 </html>

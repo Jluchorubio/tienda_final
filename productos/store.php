@@ -51,5 +51,5 @@ $stmt->execute([
     ':imagen' => $imagenNombre
 ]);
 
-header('Location: list.php');
+header('Location: ../templates/index.php?page=productos');
 exit;
