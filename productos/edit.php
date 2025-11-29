@@ -4,7 +4,7 @@ include __DIR__ . '/../config/conexion.php';
 $id = $_GET['id'] ?? null;
 
 if (!$id) {
-    header('Location: list.php');
+    header('Location: ../templates/index.php?page=productos');
     exit;
 }
 
@@ -110,10 +110,11 @@ $categorias = $sqlCat->fetchAll(PDO::FETCH_ASSOC);
 
                 <?php foreach ($categorias as $c): ?>
                     <option value="<?= $c['id'] ?>" <?= ($c['id'] == $p['categoria_id']) ? 'selected' : '' ?>>
-                        <?= $c['nombre'] ?>
+                        <?= htmlspecialchars($c['nombre']) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
+
 
             <!-- Imagen -->
             <label>Imagen actual</label>
@@ -128,5 +129,5 @@ $categorias = $sqlCat->fetchAll(PDO::FETCH_ASSOC);
 
             <div class="actions">
                 <button class="save" type="submit">Actualizar</button>
-                <a class="cancel" href="list.php">Cancelar</a>
+                <a class="cancel" href="../templates/index.php?page=productos">Cancelar</a>
             </div>

@@ -284,9 +284,9 @@ $categoria_filtro = $_GET['categoria'] ?? '';
             </form>
         </div>
 
-                <!--Botones-->
+        <!--Botones-->
         <div class="botones">
-            <a href="create.php" class="btn-primary">Crear Producto</a>
+            <a href="../productos/create.php" class="btn-primary">Crear Producto</a>
             <a href="../categorias/create.php" class="btn-primary" id="categoria">Crear Categoría</a>
         </div>
     </div>
@@ -318,17 +318,23 @@ $categoria_filtro = $_GET['categoria'] ?? '';
                             <td><?= htmlspecialchars($p['categoria'] ?? 'Sin categoría') ?></td>
 
                             <td>
-                                <?php if (!empty($p['imagen']) && file_exists(__DIR__ . '/../uploads/' . $p['imagen'])): ?>
-                                    <img class="thumb" src="../uploads/<?= htmlspecialchars($p['imagen']) ?>" alt="">
+                                <?php
+                                $ruta_archivo = __DIR__ . '/../../uploads/' . $p['imagen'];
+                                $ruta_publica = '/tienda_final/uploads/' . $p['imagen'];
+                                ?>
+
+                                <?php if (!empty($p['imagen']) && file_exists($ruta_archivo)): ?>
+                                    <img class="thumb" src="<?= $ruta_publica ?>" alt="">
                                 <?php else: ?>
                                     <span style="color:#777;">Sin imagen</span>
                                 <?php endif; ?>
                             </td>
 
+
                             <td class="actions">
 
                                 <!-- EDITAR -->
-                                <a href="edit.php?id=<?= $p['id'] ?>" class="icon-btn">
+                                <a href="../productos/edit.php?id=<?= $p['id'] ?>" class="icon-btn">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                         <path fill="#ffffffff" fill-rule="evenodd"
                                             d="M3 18L15 6l3 3L6 21H3zM16 5l2-2l3 3l-2.001 2.001z" />
@@ -336,7 +342,7 @@ $categoria_filtro = $_GET['categoria'] ?? '';
                                 </a>
 
                                 <!-- ELIMINAR -->
-                                <form action="delete.php" method="POST"
+                                <form action="../productos/delete.php" method="POST"
                                     onsubmit="return confirm('¿Eliminar este producto?')" style="display:inline;">
                                     <input type="hidden" name="id" value="<?= $p['id'] ?>">
                                     <button class="icon-btn" id="delete" type="submit" style="border:none;"><svg
