@@ -16,4 +16,4 @@ $stmt->execute([
     'id' => $_POST['id']
 ]);
 
-header("Location: ../clientes/list.php");  // Redirige a la lista de clientes después de la actualización.
+header("Location: ../templates/views/clientes.php");  // Redirige a la lista de clientes después de la actualización.
