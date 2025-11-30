@@ -1,5 +1,5 @@
 <?php
-include "../config/conexion.php";
+include __DIR__ . '/../../config/conexion.php';
 
 if (!$pdo) {
     die("Error de conexión con la base de datos.");
@@ -17,7 +17,7 @@ $buscar_nombre = $_GET['buscar_nombre'] ?? "";
 $buscar_telefono = $_GET['buscar_telefono'] ?? "";
 $estado = $_GET['estado'] ?? "";
 
-$sql = "SELECT * FROM clientes WHERE 1";
+$sql = "SELECT * FROM clientes WHERE estado = 1";
 $params = [];
 
 /* ----- Filtro general ----- */
@@ -305,7 +305,7 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </form>
             <!--Botones-->
             <div class="botones">
-                <a href="../clietes/create.php" class="btn-primary">Crear cliente</a>
+                <a href="/tienda_final/templates/index.php?page=clientes_create" class="btn-primary">Crear cliente</a>
             </div>
         </div>
     </div>
@@ -335,15 +335,16 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= $cliente['direccion'] ?></td>
 
                         <td class="actions">
-                            <a href="../clientes/edit.php?id=<?= $cliente['id'] ?>" class="icon-btn">
+                            <a href="/tienda_final/templates/index.php?page=clientes_edit&id=<?= $cliente['id'] ?>" class="icon-btn">
+
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                     <path fill="#ffffffff" fill-rule="evenodd"
                                         d="M3 18L15 6l3 3L6 21H3zM16 5l2-2l3 3l-2.001 2.001z" />
                                 </svg>
                             </a>
 
-                            <a href="../clientes/delete.php?id=<?= $cliente['id'] ?>" class="icon-btn" id="delete"
-                                onclick="return confirm('¿Eliminar este cliente?')">
+                            <a href="/tienda_final/templates/index.php?page=clientes_delete&id=<?= $cliente['id'] ?>"
+                                onclick="return confirm('¿Eliminar cliente?')" id="delete">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                     <path fill="#fff"
                                         d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
