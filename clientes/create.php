@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../templates/style.css">
 
 <div class="form-card">
     <h2 class="form-title">Crear Cliente</h2>

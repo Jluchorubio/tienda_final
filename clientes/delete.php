@@ -1,10 +1,10 @@
 <?php
-include "conexion.php";  // Incluye la conexión a la base de datos.
+include __DIR__ . '/../config/conexion.php';
 
-$id = $_GET['id'];  // Obtiene el ID del cliente desde la URL.
+$id = $_GET['id'];
 
-$stmt = $pdo->prepare("DELETE FROM clientes WHERE id = :id");  // Prepara la consulta SQL para eliminar al cliente.
-$stmt->execute(['id' => $id]);  // Ejecuta la consulta de eliminación.
+$stmt = $pdo->prepare("UPDATE clientes SET estado = 0 WHERE id = :id");
+$stmt->execute(['id' => $id]);
 
-header("Location: ../clientes/list.php");
-// Redirige a la lista de clientes después de eliminar.
+header("Location: ../templates/index.php?page=clientes");
+exit;

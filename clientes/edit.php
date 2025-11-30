@@ -1,12 +1,12 @@
 <?php
-include "../config/conexion.php";
+include __DIR__ . '/../config/conexion.php';
 $id = $_GET['id'];
 
 $stmt = $pdo->prepare("SELECT * FROM clientes WHERE id = :id");
 $stmt->execute(['id' => $id]);
 $cliente = $stmt->fetch();
 ?>
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../templates/style.css">
 
 <div class="form-card">
     <h2 class="form-title">Editar Cliente</h2>

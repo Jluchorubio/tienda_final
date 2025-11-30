@@ -1,5 +1,5 @@
 <?php
-include "conexion.php";  // Incluye la conexión a la base de datos.
+include __DIR__ . '/../config/conexion.php';
 
 $stmt = $pdo->query("SELECT * FROM clientes");  // Obtiene todos los clientes de la base de datos.
 $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);  // Recupera los resultados de la consulta.

@@ -1,5 +1,5 @@
 <?php
-include "conexion.php";  // Incluye la conexión a la base de datos.
+include __DIR__ . '/../config/conexion.php';
 
 $sql = "UPDATE clientes SET 
             nombre = :nombre, 
@@ -15,5 +15,5 @@ $stmt->execute([
     'direccion' => $_POST['direccion'],
     'id' => $_POST['id']
 ]);
-
-header("Location: ../templates/views/clientes.php");  // Redirige a la lista de clientes después de la actualización.
+header("Location: ../templates/index.php?page=clientes");
+exit;

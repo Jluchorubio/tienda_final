@@ -1,5 +1,33 @@
 <?php
-// index.php
+$page = $_GET['page'] ?? 'home';
+
+$basePath = dirname(__DIR__);
+
+// Ruta a vistas
+$viewPath = __DIR__ . "/views/{$page}.php";
+
+$crudPath = null;
+
+// Si contiene "_", es CRUD
+if (strpos($page, "_") !== false) {
+
+    list($folder, $file) = explode("_", $page);
+
+    // CONSTRUCCIÓN EXACTA de la ruta CRUD
+    $crudPath = $basePath . "/$folder/$file.php";
+
+    // Debug temporal:
+    // echo "Cargando: $crudPath";
+    // exit;
+
+    if (file_exists($crudPath)) {
+        include $crudPath;
+        exit;
+    }
+}
+
+// Si no es CRUD: vista normal
+$currentView = file_exists($viewPath) ? $viewPath : null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +68,14 @@
                 </a>
 
                 <a href="index.php?page=categorias" class="active">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="#fff" fill-rule="evenodd" clip-rule="evenodd"><path d="M3.36 4.984h1.574v2.885h3.673v1.574H4.934v3.672h3.673v1.573h-4.46a.787.787 0 0 1-.786-.786z"/><path d="M1 1.836C1 .822 1.822 0 2.836 0h7.869c1.014 0 1.836.822 1.836 1.836v1.836a1.836 1.836 0 0 1-1.836 1.836H2.836A1.836 1.836 0 0 1 1 3.672zm1.836-.262a.26.26 0 0 0-.262.262v1.836c0 .145.117.262.262.262h7.869a.26.26 0 0 0 .262-.262V1.836a.26.26 0 0 0-.262-.262zM7.82 8.393c0-1.014.822-1.836 1.836-1.836h2.623c1.014 0 1.836.822 1.836 1.836v.525a1.836 1.836 0 0 1-1.836 1.836H9.656A1.836 1.836 0 0 1 7.82 8.918zm1.836-.262a.26.26 0 0 0-.263.262v.525c0 .145.118.262.263.262h2.623a.26.26 0 0 0 .262-.262v-.525a.26.26 0 0 0-.262-.262zM7.82 13.64c0-1.015.822-1.837 1.836-1.837h2.623c1.014 0 1.836.822 1.836 1.836v.525A1.836 1.836 0 0 1 12.279 16H9.656a1.836 1.836 0 0 1-1.836-1.836zm1.836-.263a.26.26 0 0 0-.263.262v.525c0 .145.118.262.263.262h2.623a.26.26 0 0 0 .262-.262v-.525a.26.26 0 0 0-.262-.262z"/></g></svg>Categorias
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                        <g fill="#fff" fill-rule="evenodd" clip-rule="evenodd">
+                            <path
+                                d="M3.36 4.984h1.574v2.885h3.673v1.574H4.934v3.672h3.673v1.573h-4.46a.787.787 0 0 1-.786-.786z" />
+                            <path
+                                d="M1 1.836C1 .822 1.822 0 2.836 0h7.869c1.014 0 1.836.822 1.836 1.836v1.836a1.836 1.836 0 0 1-1.836 1.836H2.836A1.836 1.836 0 0 1 1 3.672zm1.836-.262a.26.26 0 0 0-.262.262v1.836c0 .145.117.262.262.262h7.869a.26.26 0 0 0 .262-.262V1.836a.26.26 0 0 0-.262-.262zM7.82 8.393c0-1.014.822-1.836 1.836-1.836h2.623c1.014 0 1.836.822 1.836 1.836v.525a1.836 1.836 0 0 1-1.836 1.836H9.656A1.836 1.836 0 0 1 7.82 8.918zm1.836-.262a.26.26 0 0 0-.263.262v.525c0 .145.118.262.263.262h2.623a.26.26 0 0 0 .262-.262v-.525a.26.26 0 0 0-.262-.262zM7.82 13.64c0-1.015.822-1.837 1.836-1.837h2.623c1.014 0 1.836.822 1.836 1.836v.525A1.836 1.836 0 0 1 12.279 16H9.656a1.836 1.836 0 0 1-1.836-1.836zm1.836-.263a.26.26 0 0 0-.263.262v.525c0 .145.118.262.263.262h2.623a.26.26 0 0 0 .262-.262v-.525a.26.26 0 0 0-.262-.262z" />
+                        </g>
+                    </svg>Categorias
                 </a>
 
                 <a href="index.php?page=clientes" class="active">
@@ -100,17 +135,15 @@
             </header>
 
             <main class="vista">
-                <?php
-                $page = $_GET['page'] ?? 'inicio'; // carga por defecto "inicio"
-                
-                $archivo = "views/" . $page . ".php";
 
-                if (file_exists($archivo)) {
-                    include $archivo;
-                } else {
-                    echo "<p style='padding:20px'>⚠ Página no encontrada</p>";
-                }
-                ?>
+                <?php
+if ($currentView) {
+    include $currentView;
+} else {
+    echo "<h2>404 - Página no encontrada</h2>";
+}
+?>
+
             </main>
         </main>
     </div>
