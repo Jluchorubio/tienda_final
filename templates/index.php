@@ -1,34 +1,37 @@
 <?php
-$page = $_GET['page'] ?? 'home';
+$page = $_GET['page'] ?? 'inicio';
 
+// Ruta del proyecto (subimos un nivel desde templates/)
 $basePath = dirname(__DIR__);
 
-// Ruta a vistas
+// Ruta a vistas normales
 $viewPath = __DIR__ . "/views/{$page}.php";
 
-$crudPath = null;
+$currentView = null;
 
-// Si contiene "_", es CRUD
+// Detectar si es CRUD
 if (strpos($page, "_") !== false) {
 
     list($folder, $file) = explode("_", $page);
 
-    // CONSTRUCCIÓN EXACTA de la ruta CRUD
-    $crudPath = $basePath . "/$folder/$file.php";
-
-    // Debug temporal:
-    // echo "Cargando: $crudPath";
-    // exit;
+    // RUTA CORRECTA A CRUD: /tienda_final/{folder}/{file}.php
+    $crudPath = $basePath . "/{$folder}/{$file}.php";
 
     if (file_exists($crudPath)) {
-        include $crudPath;
-        exit;
+        $currentView = $crudPath;
     }
 }
 
-// Si no es CRUD: vista normal
-$currentView = file_exists($viewPath) ? $viewPath : null;
+// Si no es CRUD, cargar vista normal
+if (!$currentView) {
+    if (file_exists($viewPath)) {
+        $currentView = $viewPath;
+    } else {
+        $currentView = null;
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,7 +89,7 @@ $currentView = file_exists($viewPath) ? $viewPath : null;
                     Clientes
                 </a>
 
-                <a href="index.php?page=factura" class="active">
+                <a href="index.php?page=factura_list" class="active">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 12 12">
                         <path fill="currentColor"
                             d="M10.5 4h-2C7.67 4 7 3.33 7 2.5v-2c0-.28-.22-.5-.5-.5H2c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h8c.55 0 1-.45 1-1V4.5c0-.28-.22-.5-.5-.5m-2 6h-5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h5c.28 0 .5.22.5.5s-.22.5-.5.5M9 7.5c0 .28-.22.5-.5.5h-5c-.28 0-.5-.22-.5-.5v-2c0-.28.22-.5.5-.5h5c.28 0 .5.22.5.5zm-1-7V2c0 .55.45 1 1 1h1.5c.45 0 .67-.54.35-.85l-2-2C8.54-.17 8 .06 8 .5" />
@@ -137,12 +140,12 @@ $currentView = file_exists($viewPath) ? $viewPath : null;
             <main class="vista">
 
                 <?php
-if ($currentView) {
-    include $currentView;
-} else {
-    echo "<h2>404 - Página no encontrada</h2>";
-}
-?>
+                if ($currentView) {
+                    include $currentView;
+                } else {
+                    echo "<h2>404 - Página no encontrada</h2>";
+                }
+                ?>
 
             </main>
         </main>

@@ -288,7 +288,7 @@ include __DIR__ . '/../../categorias/list.php';
             </tbody>
         </table>
     </div>
-
+    <?php include __DIR__ . "/../../includes/footer_dashboard.php"; ?>
     <script>
         /* ============================= */
         /* 🔍 FILTRO EN TIEMPO REAL */

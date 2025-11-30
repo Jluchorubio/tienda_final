@@ -265,14 +265,13 @@
                     </a>
                 <?php endif; ?>
             </form>
-        </div>
-
-        <!--Botones-->
+                    <!--Botones-->
         <div class="botones">
-            <a href="create.php" class="btn-primary">Crear Factura</a>
+            <a href="../../factura/create.php" class="btn-primary">Crear Factura</a>
             <a href="../clientes/create.php" id="categoria">Crear Cliente</a>
         </div>
     </div>
+        </div>
 
     <!-- TABLA -->
     <div class="table-container">
@@ -293,7 +292,7 @@
                         <td colspan="5" style="text-align: center; color: #86868b; padding: 40px;">
                             No hay facturas registradas
                         </td>
-                    </tr>
+                    </tr>z
                 <?php else: ?>
                     <?php foreach ($facturas as $f): ?>
                         <tr>
@@ -315,7 +314,7 @@
                                 </a>
 
                                 <!-- EDITAR -->
-                                <a href="edit.php?id=<?= $f['id'] ?>" class="icon-btn" title="Editar">
+                                <a href="../../factura/edit.php?id=<?= $f['id'] ?>" class="icon-btn" title="Editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                         <path fill="#ffffffff" fill-rule="evenodd"
                                             d="M3 18L15 6l3 3L6 21H3zM16 5l2-2l3 3l-2.001 2.001z" />
@@ -323,7 +322,7 @@
                                 </a>
 
                                 <!-- ELIMINAR -->
-                                <form action="delete.php" method="POST" onsubmit="return confirm('¿Eliminar esta factura?')"
+                                <form action="../../factura/delete.php" method="POST" onsubmit="return confirm('¿Eliminar esta factura?')"
                                     style="display:inline;">
                                     <input type="hidden" name="id" value="<?= $f['id'] ?>">
                                     <button class="icon-btn" id="delete" type="submit" title="Eliminar">
