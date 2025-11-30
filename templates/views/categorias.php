@@ -1,3 +1,6 @@
+<?php
+include __DIR__ . '/../../categorias/list.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -6,146 +9,229 @@
     <title>Categorías</title>
 
     <style>
-        /* ============================= */
-        /* 🎨 PALETA Y BASE */
-        /* ============================= */
+        /* Paleta*/
         :root {
             --green: #4db050;
+            /* acento verde */
             --dark: #1e293b;
+            /* gris azulado oscuro (sidebar) */
+            --muted: #f1f5f9;
+            /* gris claro (fondos) */
             --white: #ffffff;
-            --muted: #f8fafc;
-            --gray: #64748b;
-
+            --accent-soft: #d6ff90;
+            /* acento opcional */
+            --text-dark: #0b1220;
             --radius: 10px;
             --shadow: 0 6px 18px rgba(14, 30, 37, 0.08);
-
-            font-family: Inter, Roboto, system-ui, sans-serif;
+            font-family: Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
         }
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            background: var(--muted);
-            overflow-x: hidden;
-        }
-
-        h1 {
-            text-align: center;
-            margin: 25px 0;
-            color: var(--dark);
-        }
-
-        /* ============================= */
-        /* 🔹 ENCABEZADO */
-        /* ============================= */
+        /* ----------- ENCABEZADO DE SECCIÓN ----------- */
         .header-section {
-            display: flex;
+            background: var(--white);
+            margin: 20px 20px 0px 20px;
+            padding: 20px 25px;
+            border-radius: var(--radius) var(--radius) 0 0;
+            /* Solo arriba */
+            box-shadow: var(--shadow);
             justify-content: space-between;
             align-items: center;
-            max-width: 900px;
-            margin: auto;
-            padding: 10px;
-            flex-wrap: wrap;
+            /* elimina espacio */
+            justify-content: space-between;
+            align-items: center;
+            display: flex;
         }
 
-        .btn-primary {
-            background: var(--green);
-            color: white;
-            padding: 10px 14px;
-            border-radius: var(--radius);
-            text-decoration: none;
+        /* Título */
+        .header-section h2 {
+            font-size: 22px;
             font-weight: 600;
-            box-shadow: var(--shadow);
         }
 
-        /* ============================= */
-        /* 🔍 BUSCADOR */
-        /* ============================= */
-        .search-box {
-            max-width: 900px;
-            margin: 15px auto;
-            padding: 0 10px;
+        /* Botón */
+        .btn-primary {
+            padding: 10px 18px;
+            background: var(--green);
+            color: var(--white);
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.25s;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: var(--radius);
-            border: 1px solid #ccc;
-            font-size: 1rem;
-            box-shadow: var(--shadow);
+        .btn-primary:hover {
+            background: #3b9e44;
+            transform: translateY(-2px);
         }
 
-        /* ============================= */
-        /* 📦 TABLA */
-        /* ============================= */
+
+        /* ===== FILTRO ===== */
+        #search {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background: var(--muted);
+            width: 420px;
+            justify-content: space-between;
+
+        }
+
+        #search:hover {
+            border-color: var(--green);
+
+        }
+
+        #search input {
+            border: 0;
+            background: transparent;
+            outline: 0;
+            font-size: 15px
+        }
+
+        .filter-box {
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+            justify-content: space-between;
+        }
+
+        /* Ícono dentro del select */
+        select {
+            padding: 6px 40px 6px 12px;
+            background: var(--muted);
+        }
+
+        /* ----------- TABLA ----------- */
         .table-container {
-            max-width: 900px;
-            margin: auto;
             background: var(--white);
-            padding: 18px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            overflow-x: auto;
+            overflow: hidden;
+            margin: 0px 20px 0px 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 500px;
-        }
-
-        thead {
-            background: var(--dark);
-            color: white;
         }
 
         th,
         td {
-            padding: 12px 14px;
-            text-align: left;
+            padding: 14px 16px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        th {
+            background: #f3f3f3;
+            font-weight: 600;
+        }
+
+        /* Hover */
+        tr:hover td {
+            background: #f9f9f9;
+        }
+
+        /* Acciones */
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: var(--dark);
+            padding: 7px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #delete {
+            background: red;
+            padding: 7px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-dark);
+        }
+
+
+        /* ==== CONTENEDOR PRINCIPAL ==== */
+        .main-content {
+            margin-left: 250px;
+            /* Ancho del menú lateral */
+            padding: 20px;
+            width: calc(100% - 250px);
+            /* Quita el espacio en blanco */
+            box-sizing: border-box;
+        }
+
+        /* ==== TARJETA DE GESTIÓN DE CLIENTES SIN RADIUS ==== */
+        .card {
+            background: #fff;
+            padding: 20px;
+            margin-top: 10px;
+            border: 1px solid #e3e3e3;
+            border-radius: 0px !important;
+            /* sin bordes redondeados */
+        }
+
+        /* ==== TABLA SIN RADIUS ==== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 0 !important;
+        }
+
+        .table-header,
+        th {
+            background: #f4f4f4;
+            border-radius: 0 !important;
+        }
+
+        td,
+        th {
+            padding: 12px;
             border-bottom: 1px solid #ddd;
-            white-space: nowrap;
         }
 
-        tbody tr:nth-child(even) {
-            background: var(--muted);
+        /* ==== BOTÓN NUEVO CLIENTE ==== */
+        .btn-new {
+            background: #0abf53;
+            color: #fff;
+            padding: 10px 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
         }
 
-        .btn {
-            padding: 8px 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            color: white;
+        .btn-new:hover {
+            background: #099648;
         }
 
-        .edit {
-            background: #ffc107;
-            color: black;
+        /* ==== SCROLL ==== */
+        .table-container {
+            max-height: 420px;
+            overflow-y: auto;
+            overflow-x: auto;
+            border-radius: 0 !important;
         }
 
-        .delete {
-            background: #dc3545;
-        }
-
-        /* ============================= */
-        /* 📱 RESPONSIVE */
-        /* ============================= */
-        @media (max-width: 600px) {
-            .header-section {
-                flex-direction: column;
-                gap: 12px;
-                align-items: flex-start;
-            }
-
-            h1 {
-                font-size: 1.6rem;
-            }
-
-            table {
-                min-width: 400px;
-            }
+        table th,
+        table td {
+            text-align: center;
         }
     </style>
 
@@ -153,56 +239,24 @@
 
 <body>
 
-    <div>
-        <h1>Categorías</h1>
+    <!-- Encabezado -->
+    <div class="header-section">
+        <h2>Categorías</h2>
 
-        <!-- FILTRO -->
-        <div class="filter-box">
-            <form method="GET">
-
-                <div id="search" role="search">
-                    <div>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                            <path d="M21 21l-4.35-4.35" stroke="#718096" stroke-width="1.6" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <circle cx="11" cy="11" r="6" stroke="#718096" stroke-width="1.6" />
-                        </svg>
-                        <input name="buscar" placeholder="Buscar categoria" />
-                    </div>
-                    <select name="categoria" onchange="this.form.submit()">
-                        <option value="">
-                            </svg></option>
-                </div>
-
-
-                <?php foreach ($categorias as $cat): ?>
-                    <option value="<?= $cat['id'] ?>" <?= ($categoria_filtro == $cat['id']) ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($cat['nombre']) ?>
-                    </option>
-                <?php endforeach; ?>
-                </select>
-
-                <?php if ($categoria_filtro): ?>
-                    <a href="../../categoria/list.php">Quitar filtro</a>
-                <?php endif; ?>
-            </form>
-        </div>
-
-        <!--Botones-->
-        <div class="botones">
-            <a href="../categorias/create.php" class="btn-primary">Crear Categoría</a>
-        </div>
+        <a href="../categorias/create.php" class="btn-primary">Crear Categoría</a>
     </div>
-|
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'foreign_key'): ?>
+        <div class="alert alert-danger">
+            No se puede eliminar esta categoría porque tiene productos asociados.
+        </div>
+    <?php endif; ?>
+
+    <!-- Contenedor principal de tabla -->
     <div class="table-container">
         <table id="tablaCategorias">
             <thead>
                 <tr>
-                    <th>
-                        <a href="?order=<?= $nextOrder ?>" style="color:white;text-decoration:none;">
-                            ID <?= $order === 'ASC' ? '▲' : '▼' ?>
-                        </a>
-                    </th>
+                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Acciones</th>
                 </tr>
@@ -214,9 +268,20 @@
                         <td><?= $c['id'] ?></td>
                         <td><?= $c['nombre'] ?></td>
                         <td>
-                            <a class="btn edit" href="edit.php?id=<?= $c['id'] ?>">Editar</a>
-                            <a class="btn delete" href="delete.php?id=<?= $c['id'] ?>"
-                                onclick="return confirm('¿Eliminar categoría?')">Eliminar</a>
+                            <div class="actions">
+                                <a class="icon-btn" href="../categorias/edit.php?id=<?php echo $c['id']; ?>"><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                        <path fill="#ffffffff" fill-rule="evenodd"
+                                            d="M3 18L15 6l3 3L6 21H3zM16 5l2-2l3 3l-2.001 2.001z" />
+                                    </svg></a>
+
+                                <a id="delete" href="../categorias/delete.php?id=<?php echo $c['id']; ?>"
+                                    onclick="return confirm('¿Eliminar categoría?')"><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="20" height="20" viewBox="0 0 24 24">
+                                        <path fill="#fff"
+                                            d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
+                                    </svg></a>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach ?>
