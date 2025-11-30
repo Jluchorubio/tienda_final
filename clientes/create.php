@@ -3,7 +3,7 @@
 <div class="form-card">
     <h2 class="form-title">Crear Cliente</h2>
 
-    <form action="store.php" method="POST" class="form-container">
+    <form action="/tienda_final/clientes/store.php" method="POST" class="form-container">
         <div class="form-group">
             <label>Nombre</label>
             <input type="text" name="nombre" placeholder="Ingresa el nombre" required>
