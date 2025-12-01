@@ -17,7 +17,7 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <h1>Editar factura #<?= $factura['id']; ?></h1>
 
-<form action="update.php" method="POST">
+<form action="/tienda_final/factura/update.php" method="POST">
     <input type="hidden" name="id" value="<?= $factura['id']; ?>">
 
     <label>Cliente:</label>
@@ -35,4 +35,4 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </form>
 
 <br>
-<a href="list.php">Volver</a>
+<a href="index.php?page=factura_list">Volver</a>

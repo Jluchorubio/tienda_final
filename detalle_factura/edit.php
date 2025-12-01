@@ -1,40 +1,41 @@
 <?php
 include __DIR__ . "/../config/conexion.php";
 
-$id = $_GET['id'];
+$id = $_GET['id'] ?? null;
 
-// Obtener el detalle
-$detalle = $conexion->query("SELECT * FROM detalle_factura WHERE id = $id")->fetch_assoc();
+if (!$id) {
+    header("Location: ../templates/index.php?page=factura_list&error=sin_id");
+    exit;
+}
 
-// Obtener productos
-$productos = $conexion->query("SELECT id, nombre, precio FROM productos");
+$stmt = $conexion->prepare("SELECT * FROM detalle_factura WHERE id = ?");
+$stmt->execute([$id]);
+$detalle = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$detalle) {
+    header("Location: ../templates/index.php?page=factura_list&error=no_data");
+    exit;
+}
 ?>
 
-<h1>Editar detalle de factura</h1>
+<h1>Editar detalle factura</h1>
 
 <form action="update.php" method="POST">
-    <input type="hidden" name="id" value="<?= $detalle['id']; ?>">
-    <input type="hidden" name="factura_id" value="<?= $detalle['factura_id']; ?>">
+
+    <input type="hidden" name="id" value="<?= $detalle['id'] ?>">
+    <input type="hidden" name="factura_id" value="<?= $detalle['factura_id'] ?>">
 
     <label>Producto:</label>
-    <select name="producto_id" required>
-        <?php while ($p = $productos->fetch_assoc()) { ?>
-            <option value="<?= $p['id']; ?>"
-                <?= $p['id'] == $detalle['producto_id'] ? 'selected' : ''; ?>>
-                <?= $p['nombre']; ?>
-            </option>
-        <?php } ?>
-    </select>
-
-    <br><br>
+    <input type="text" name="producto_id" value="<?= $detalle['producto_id'] ?>" required>
 
     <label>Cantidad:</label>
-    <input type="number" name="cantidad" value="<?= $detalle['cantidad']; ?>" required>
+    <input type="number" name="cantidad" value="<?= $detalle['cantidad'] ?>" required>
 
-    <br><br>
+    <label>Precio:</label>
+    <input type="number" name="precio" value="<?= $detalle['precio'] ?>" required>
 
-    <button type="submit">Actualizar</button>
+    <button type="submit">Guardar cambios</button>
 </form>
 
 <br>
-<a href="list.php?factura_id=<?= $detalle['factura_id']; ?>">Volver</a>
+<a href="../templates/index.php?page=detalle_factura_list&factura_id=<?= $detalle['factura_id'] ?>">Volver</a>

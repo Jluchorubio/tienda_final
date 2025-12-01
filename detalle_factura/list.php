@@ -54,11 +54,11 @@ $detalles = $stmt2->fetchAll(PDO::FETCH_ASSOC);
             <td>
                 <a href="edit.php?id=<?= $d['id']; ?>">Editar</a> |
                 <a href="delete.php?id=<?= $d['id']; ?>&factura_id=<?= $factura_id; ?>"
-                   onclick="return confirm('¿Eliminar detalle?');">Eliminar</a>
+                    onclick="return confirm('¿Eliminar detalle?');">Eliminar</a>
             </td>
         </tr>
     <?php } ?>
 </table>
 
 <br>
-<a href="../factura/list.php">Volver a facturas</a>
+<a href="../templates/index.php?page=factura_list">Volver a facturas</a>

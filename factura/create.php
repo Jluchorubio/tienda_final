@@ -7,20 +7,19 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <h1>Crear factura</h1>
 
-<form action="store.php" method="POST">
+<form action="/tienda_final/factura/store.php" method="POST">
 
     <label>Cliente:</label>
     <select name="cliente_id" required>
         <option value="">Seleccione</option>
-        <?php foreach ($clientes as $c) { ?>
+        <?php foreach ($clientes as $c): ?>
             <option value="<?= $c['id']; ?>"><?= $c['nombre']; ?></option>
-        <?php } ?>
+        <?php endforeach; ?>
     </select>
 
     <br><br>
-
     <button type="submit">Guardar factura</button>
 </form>
 
 <br>
-<a href="list.php">Volver</a>
+<a href="index.php?page=factura_list">Volver</a>
