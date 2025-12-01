@@ -116,14 +116,22 @@ if (!$currentView) {
             <header class="topbar">
                 <div style="display:flex;align-items:center;gap:16px">
                     <button class="menu-btn" id="menuBtn">☰</button>
-                    <div class="search" role="search">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                            <path d="M21 21l-4.35-4.35" stroke="#718096" stroke-width="1.6" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <circle cx="11" cy="11" r="6" stroke="#718096" stroke-width="1.6" />
-                        </svg>
-                        <input placeholder="Buscar productos, clientes..." />
-                    </div>
+
+<form action="index.php" method="GET" class="search-bar">
+    <input type="hidden" name="page" value="search">
+
+    <div class="search-container">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+            <path fill="currentColor"
+                d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 5l1.5-1.5zM9.5 14A4.5 4.5 0 1 1 14 9.5A4.5 4.5 0 0 1 9.5 14" />
+        </svg>
+
+        <input name="query" placeholder="Buscar productos, clientes, facturas..." autocomplete="off">
+        <button type="submit">Buscar</button>
+    </div>
+</form>
+
+    
                 </div>
 
                 <div class="top-actions">

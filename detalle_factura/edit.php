@@ -18,24 +18,117 @@ if (!$detalle) {
 }
 ?>
 
-<h1>Editar detalle factura</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Editar detalle factura</title>
 
-<form action="update.php" method="POST">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #eef2f3;
+        padding: 30px;
+        color: #333;
+    }
 
-    <input type="hidden" name="id" value="<?= $detalle['id'] ?>">
-    <input type="hidden" name="factura_id" value="<?= $detalle['factura_id'] ?>">
+    .form-container {
+        width: 450px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
 
-    <label>Producto:</label>
-    <input type="text" name="producto_id" value="<?= $detalle['producto_id'] ?>" required>
+    h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
 
-    <label>Cantidad:</label>
-    <input type="number" name="cantidad" value="<?= $detalle['cantidad'] ?>" required>
+    label {
+        display: block;
+        margin-top: 12px;
+        font-weight: bold;
+        color: #34495e;
+    }
 
-    <label>Precio:</label>
-    <input type="number" name="precio" value="<?= $detalle['precio'] ?>" required>
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccd1d1;
+        border-radius: 6px;
+        font-size: 15px;
+    }
 
-    <button type="submit">Guardar cambios</button>
-</form>
+    input:focus {
+        border-color: #3498db;
+        outline: none;
+        box-shadow: 0 0 5px rgba(52,152,219,0.3);
+    }
 
-<br>
-<a href="../templates/index.php?page=detalle_factura_list&factura_id=<?= $detalle['factura_id'] ?>">Volver</a>
+    button {
+        width: 100%;
+        margin-top: 20px;
+        padding: 12px;
+        border: none;
+        background: #3498db;
+        color: white;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background: #2980b9;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 15px;
+        text-decoration: none;
+        color: #7f8c8d;
+        font-weight: bold;
+    }
+
+    .back-link:hover {
+        color: #2c3e50;
+        text-decoration: underline;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="form-container">
+
+    <h1>Editar detalle</h1>
+
+    <form action="update.php" method="POST">
+
+        <input type="hidden" name="id" value="<?= $detalle['id'] ?>">
+        <input type="hidden" name="factura_id" value="<?= $detalle['factura_id'] ?>">
+
+        <label>Producto (ID):</label>
+        <input type="text" name="producto_id" value="<?= $detalle['producto_id'] ?>" required>
+
+        <label>Cantidad:</label>
+        <input type="number" name="cantidad" value="<?= $detalle['cantidad'] ?>" required>
+
+        <label>Precio unitario:</label>
+        <input type="number" name="precio" value="<?= $detalle['precio'] ?>" required>
+
+        <button type="submit">Guardar cambios</button>
+    </form>
+
+    <a class="back-link" href="/tienda_final/detalle_factura/list.php?factura_id=<?= $detalle['factura_id'] ?>">← Volver</a>
+
+
+</div>
+
+</body>
+</html>
