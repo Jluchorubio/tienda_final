@@ -239,7 +239,7 @@
 
         <!-- FILTRO -->
         <div class="filter-box">
-            <form method="GET">
+            <form method="GET" action="../../factura/list.php">
                 <div id="search" role="search">
                     <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -258,17 +258,16 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
+<?php if ($cliente_filtro): ?>
+    <a href="../../factura/list.php" style="margin-left: 10px; color: #ef4444; text-decoration: none; font-weight: 500;">
+        ✕ Quitar filtro
+    </a>
+<?php endif; ?>
 
-                <?php if ($cliente_filtro): ?>
-                    <a href="list.php" style="margin-left: 10px; color: #ef4444; text-decoration: none; font-weight: 500;">
-                        ✕ Quitar filtro
-                    </a>
-                <?php endif; ?>
             </form>
                     <!--Botones-->
         <div class="botones">
-            <a href="../../factura/create.php" class="btn-primary">Crear Factura</a>
-            <a href="../clientes/create.php" id="categoria">Crear Cliente</a>
+            <a href="index.php?page=factura_create" class="btn-primary">Crear Factura</a>
         </div>
     </div>
         </div>
@@ -314,7 +313,7 @@
                                 </a>
 
                                 <!-- EDITAR -->
-                                <a href="../../factura/edit.php?id=<?= $f['id'] ?>" class="icon-btn" title="Editar">
+                                <a href="index.php?page=factura_edit&id=<?= $f['id'] ?>" class="icon-btn" title="Editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                         <path fill="#ffffffff" fill-rule="evenodd"
                                             d="M3 18L15 6l3 3L6 21H3zM16 5l2-2l3 3l-2.001 2.001z" />
@@ -322,9 +321,8 @@
                                 </a>
 
                                 <!-- ELIMINAR -->
-                                <form action="../../factura/delete.php" method="POST" onsubmit="return confirm('¿Eliminar esta factura?')"
+                                <form action="../factura/delete.php?id=<?= $f['id'] ?>" method="POST" onsubmit="return confirm('¿Eliminar esta factura?')"
                                     style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= $f['id'] ?>">
                                     <button class="icon-btn" id="delete" type="submit" title="Eliminar">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                             <path fill="#fff"

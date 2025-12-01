@@ -11,5 +11,6 @@ $stmt = $conexion->prepare("
 ");
 $stmt->execute([$cliente_id, $id]);
 
-header("Location: list.php");
-exit();
+header("Location: ../templates/index.php?page=factura_list&updated=1");
+exit;
+
