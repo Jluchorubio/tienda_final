@@ -10,6 +10,7 @@ $categorias = $catStmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Crear producto</title>
+    <link rel="stylesheet" href="../templates/style.css">
 </head>
 <body>
 
